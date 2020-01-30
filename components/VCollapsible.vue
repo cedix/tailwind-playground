@@ -3,8 +3,11 @@
     <div class="title bg-gray-700 text-gray-200 cursor-pointer" @click="toggleCollapsible">
       <div class="px-4 py-2">Title</div>
     </div>
-    <div class="content bg-gray-600 text-gray-200">
-      <div class="px-4 py-2">Content</div>
+    <div class="content bg-gray-600 text-gray-200" :style="contentStyle">
+      <div class="px-4 py-2" ref="body">
+        <p>Content</p>
+        <p>test</p>
+      </div>
     </div>
   </div>
 </template>
@@ -20,8 +23,21 @@ export default {
 
   data() {
     return {
-      isExpanded: this.expanded
+      isExpanded: this.expanded,
+      height: 0
     };
+  },
+
+  computed: {
+    contentStyle() {
+      return {
+        maxHeight: this.isExpanded ? `${this.height}px` : 0
+      };
+    }
+  },
+
+  mounted() {
+    this.height = this.$refs.body.clientHeight;
   },
 
   methods: {
@@ -44,11 +60,11 @@ export default {
   overflow: hidden;
 }
 .collapsible > .content {
-  max-height: 0;
+  /* max-height: 0; */
   transition: max-height var(--animation-duration) ease-in-out;
   overflow: hidden;
 }
-.collapsible.expanded > .content {
-  max-height: 40px;
-}
+/* .collapsible.expanded > .content {
+  max-height: var(--body-max-height);
+} */
 </style>
